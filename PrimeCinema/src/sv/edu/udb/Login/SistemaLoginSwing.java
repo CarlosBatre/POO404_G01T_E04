@@ -18,7 +18,7 @@ public class SistemaLoginSwing extends JFrame {
 
     public SistemaLoginSwing() {
         setTitle("PrimeCinema - Iniciar Sesión / Registrarse");
-        setSize(500, 400);
+        setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -30,7 +30,7 @@ public class SistemaLoginSwing extends JFrame {
         }
 
         tabbedPane = new JTabbedPane();
-        tabbedPane.setFont(new Font("Arial", Font.BOLD, 14));
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 15));
 
         // Panel de inicio de sesión
         loginPanel = createStyledPanel();
@@ -39,18 +39,38 @@ public class SistemaLoginSwing extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        addComponent(loginPanel, new JLabel("Usuario:"), gbc, 0, 0);
+
+        JLabel userLabel = new JLabel("Usuario:", JLabel.CENTER);
+        userLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        userLabel.setForeground(Color.WHITE);
+        addComponent(loginPanel, userLabel, gbc, 0, 1);
         loginUsername = new JTextField(15);
-        addComponent(loginPanel, loginUsername, gbc, 1, 0);
+        addComponent(loginPanel, loginUsername, gbc, 0, 2);
 
-        addComponent(loginPanel, new JLabel("Contraseña:"), gbc, 0, 1);
+
+        JLabel passwordLabel = new JLabel("Contraseña:", JLabel.CENTER);
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        passwordLabel.setForeground(Color.WHITE);
+        addComponent(loginPanel, passwordLabel, gbc, 0, 3);
         loginPassword = new JPasswordField(15);
-        addComponent(loginPanel, loginPassword, gbc, 1, 1);
+        addComponent(loginPanel, loginPassword, gbc, 0, 4);
 
-        JButton loginButton = createStyledButton("Iniciar Sesión");
+
+        gbc.gridwidth = 2;
+        gbc.gridy = 5;
+        addComponent(loginPanel, (JComponent) Box.createVerticalStrut(20), gbc, 0, 5);
+
+
+        JButton loginButton = new JButton("Iniciar Sesión");
+        loginButton.setBackground(new Color(0, 0, 0));
+        loginButton.setForeground(Color.BLACK);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loginButton.setFocusPainted(false);
+        loginButton.setHorizontalAlignment(SwingConstants.CENTER);
         loginButton.addActionListener(e -> iniciarSesion());
         gbc.gridwidth = 2;
-        addComponent(loginPanel, loginButton, gbc, 0, 2);
+        addComponent(loginPanel, loginButton, gbc, 0, 6);
+
 
         // Panel de registro
         registerPanel = createStyledPanel();
@@ -72,14 +92,22 @@ public class SistemaLoginSwing extends JFrame {
         JTextField[] fields = {regNombre, regLogin, regPassword, regDui, regTelefono, regEmail, regDireccion};
 
         for (int i = 0; i < labels.length; i++) {
-            addComponent(registerPanel, new JLabel(labels[i]), gbc, 0, i);
-            addComponent(registerPanel, fields[i], gbc, 1, i);
+            JLabel label = new JLabel(labels[i]);
+            label.setFont(new Font("Arial", Font.BOLD, 16));
+            label.setForeground(Color.WHITE);  // Color blanco
+            addComponent(registerPanel, label, gbc, 0, i);  // Añadir la etiqueta al panel
+            addComponent(registerPanel, fields[i], gbc, 1, i);  // Añadir el campo de texto al panel
         }
+        gbc.gridwidth = 2;
+        gbc.gridy = labels.length;
+        addComponent(registerPanel, (JComponent) Box.createVerticalStrut(60), gbc, 0, labels.length);
 
         JButton registerButton = createStyledButton("Registrarse");
+        registerButton.setForeground(Color.BLACK);
         registerButton.addActionListener(e -> registrar());
         gbc.gridwidth = 2;
         addComponent(registerPanel, registerButton, gbc, 0, labels.length);
+
 
         tabbedPane.addTab("Iniciar Sesión", loginPanel);
         tabbedPane.addTab("Registrarse", registerPanel);
@@ -89,14 +117,14 @@ public class SistemaLoginSwing extends JFrame {
 
     private JPanel createStyledPanel() {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(240, 240, 240));
+        panel.setBackground(new Color(122, 38, 38));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         return panel;
     }
 
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(new Color(70, 130, 180));
+        button.setBackground(new Color(0, 0, 0));
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setFocusPainted(false);
