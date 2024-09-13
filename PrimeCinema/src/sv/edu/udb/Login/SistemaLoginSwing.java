@@ -142,6 +142,18 @@ public class SistemaLoginSwing extends JFrame {
             JOptionPane.showMessageDialog(this, "Error: Uno o más campos de registro no están inicializados.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        // Validacion Campos Vacios
+        if (regNombre.getText().trim().isEmpty() ||
+                regLogin.getText().trim().isEmpty() ||
+                regPassword.getText().trim().isEmpty() ||
+                regDui.getText().trim().isEmpty() ||
+                regTelefono.getText().trim().isEmpty() ||
+                regEmail.getText().trim().isEmpty() ||
+                regDireccion.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Complete todos los campos!! Por favor :).", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Obtener conexión a la base de datos
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
