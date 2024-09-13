@@ -145,6 +145,30 @@ public class SistemaLoginSwing extends JFrame {
 
         // Obtener conexión a la base de datos
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+
+            //Validacion Nombre usuario
+            String sqlVerificarUsuario = "SELECT 1 FROM usuario WHERE login = ?";
+            PreparedStatement pstmtVerificarUsuario = conn.prepareStatement(sqlVerificarUsuario);
+            pstmtVerificarUsuario.setString(1, regLogin.getText());
+
+            ResultSet rsUsuario = pstmtVerificarUsuario.executeQuery();
+            if (rsUsuario.next()) {
+                JOptionPane.showMessageDialog(this, "Nombre de usuario ya está registrado. Intente con otro.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            //Validacion Dui
+            String sqlVerificarDui = "SELECT 1 FROM usuario WHERE numeroDui = ?";
+            PreparedStatement pstmtVerificarDui = conn.prepareStatement(sqlVerificarDui);
+            pstmtVerificarDui.setString(1, regDui.getText());
+
+            ResultSet rs = pstmtVerificarDui.executeQuery();
+            if (rs.next()) {
+                // Si el DUI ya existe, mostrar un mensaje de error y regresar
+                JOptionPane.showMessageDialog(this, "DUI ya está registrado. Intente con otro.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             // Definir la consulta SQL para insertar datos
             String sql = "INSERT INTO usuario (NombreCompleto, login, contraseña, numeroDui, numeroTelefono, correoElectronico, direccionCompleta) VALUES (?, ?, ?, ?, ?, ?, ?)";
             // Preparar la declaración
