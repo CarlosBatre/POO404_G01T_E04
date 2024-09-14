@@ -18,7 +18,7 @@ public class SistemaLoginSwing extends JFrame {
 
     public SistemaLoginSwing() {
         setTitle("PrimeCinema - Iniciar Sesión / Registrarse");
-        setSize(500, 600);
+        setSize(500, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

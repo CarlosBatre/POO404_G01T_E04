@@ -8,7 +8,7 @@ import java.awt.*;
 public class VentanaBienvenidaCine extends JFrame {
     public VentanaBienvenidaCine(String nombreCompleto) {
         setTitle("Bienvenido a PrimeCinema");
-        setSize(500, 400);
+        setSize(500, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -54,7 +54,7 @@ public class VentanaBienvenidaCine extends JFrame {
         // Mensaje adicional
         JLabel labelMensaje = new JLabel("Disfruta de nuestras películas y promociones.");
         labelMensaje.setFont(new Font("Arial", Font.ITALIC, 18));
-        labelMensaje.setForeground(Color.LIGHT_GRAY);
+        labelMensaje.setForeground(Color.WHITE);
         labelMensaje.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(labelMensaje);
 
