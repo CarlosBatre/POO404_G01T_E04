@@ -1,12 +1,9 @@
 package sv.edu.udb.RegistroPeliculas;
-
-import sv.edu.udb.RegistroSucursales.RegistroSucursales;
+import sv.edu.udb.Cartelera.Cartelera;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 class Pelicula {
     private String nombre;
@@ -131,8 +128,8 @@ public class RegistroPeliculas extends JFrame {
     }
     private JLabel createStyledLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setForeground(Color.WHITE); // Cambiar el color de la letra a blanco
-        label.setFont(new Font("Arial", Font.BOLD, 14)); // Opcional: aplicar fuente y estilo
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.BOLD, 14));
         return label;
     }
 
@@ -195,67 +192,11 @@ public class RegistroPeliculas extends JFrame {
     }
 
     private void mostrarCartelera() {
-        List<Pelicula> peliculas = obtenerPeliculas();
-
-        JFrame carteleraFrame = new JFrame("Cartelera");
-        carteleraFrame.setSize(800, 600);
-        carteleraFrame.setLocationRelativeTo(null);
-
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(Color.WHITE);
-
-        JLabel titleLabel = new JLabel("Cartelera", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
-
-        JPanel peliculasPanel = new JPanel(new GridLayout(1, 3, 10, 0));
-        peliculasPanel.setBackground(Color.WHITE);
-
-        for (int i = 0; i < 3; i++) {
-            JPanel peliculaPanel = new JPanel();
-            peliculaPanel.setBackground(Color.LIGHT_GRAY);
-            peliculaPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            peliculaPanel.setPreferredSize(new Dimension(200, 300));
-
-            if (i < peliculas.size()) {
-                Pelicula pelicula = peliculas.get(i);
-                JLabel nombreLabel = new JLabel(pelicula.getNombre(), SwingConstants.CENTER);
-                nombreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                peliculaPanel.add(nombreLabel);
-
-                if (i == 1) {
-                    peliculaPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
-                }
-            }
-
-            peliculasPanel.add(peliculaPanel);
-        }
-
-        mainPanel.add(peliculasPanel, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 10, 0));
-        buttonPanel.setBackground(Color.WHITE);
-
-        JButton verSucursalesButton = createStyledButton("Ver Sucursales");
-        verSucursalesButton.addActionListener(e -> mostrarSucursales());
-        buttonPanel.add(verSucursalesButton);
-
-        JButton buscarPeliculasButton = createStyledButton("Buscar Películas");
-        buscarPeliculasButton.addActionListener(e -> buscarPeliculas());
-        buttonPanel.add(buscarPeliculasButton);
-
-        JButton buscarSucursalesButton = createStyledButton("Buscar Sucursales");
-        buscarSucursalesButton.addActionListener(e -> buscarSucursales());
-        buttonPanel.add(buscarSucursalesButton);
-
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        carteleraFrame.add(mainPanel);
+        Cartelera carteleraFrame = new Cartelera();
         carteleraFrame.setVisible(true);
     }
 
-    private List<Pelicula> obtenerPeliculas() {
+    /*private List<Pelicula> obtenerPeliculas() {
         List<Pelicula> peliculas = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT * FROM pelicula";
@@ -274,25 +215,7 @@ public class RegistroPeliculas extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al obtener las películas de la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         return peliculas;
-    }
-
-    private void mostrarSucursales() {
-
-            RegistroSucursales sucursalesFrame = new RegistroSucursales();
-            sucursalesFrame.setVisible(true);
-        }
-
-
-
-    private void buscarPeliculas() {
-
-        JOptionPane.showMessageDialog(this, "Funcionalidad de búsqueda de películas aún no implementada.", "Buscar Películas", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void buscarSucursales() {
-
-        JOptionPane.showMessageDialog(this, "Funcionalidad de búsqueda de sucursales aún no implementada.", "Buscar Sucursales", JOptionPane.INFORMATION_MESSAGE);
-    }
+    }*/
 
     private void limpiarCampos() {
         nombreField.setText("");
