@@ -18,7 +18,7 @@ public class VentanaBienvenidaCine extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Agregar un fondo con estilo de cine
-                ImageIcon background = new ImageIcon("../../../../../../../../../Login cine/fondo.jpg");
+                ImageIcon background = new ImageIcon("./fondo.jpg");
                 g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -26,7 +26,7 @@ public class VentanaBienvenidaCine extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
         // Logo de cine
-        ImageIcon logoIcon = new ImageIcon("../../../../../../../../../Login cine/logo.jpg");
+        ImageIcon logoIcon = new ImageIcon("./logo.jpg");
         JLabel labelLogo = new JLabel(logoIcon);
         labelLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(labelLogo);
