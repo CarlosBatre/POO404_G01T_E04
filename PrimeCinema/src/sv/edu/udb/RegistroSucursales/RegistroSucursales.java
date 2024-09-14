@@ -26,7 +26,7 @@ public class RegistroSucursales extends JFrame {
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(new Color(122, 38, 38));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
@@ -98,7 +98,7 @@ public class RegistroSucursales extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(new Color(122, 38, 38));
 
         JTextField nombreField = new JTextField();
         JTextField nombreGerenteField = new JTextField();
