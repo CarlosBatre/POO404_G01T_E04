@@ -1,4 +1,5 @@
 package sv.edu.udb.Cartelera;
+
 import sv.edu.udb.RegistroSucursales.RegistroSucursales;
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +8,8 @@ public class Cartelera extends JFrame {
     public Cartelera() {
         setTitle("Cartelera");
         setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -17,7 +20,7 @@ public class Cartelera extends JFrame {
         titleLabel.setForeground(Color.WHITE);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
-        //pelis cartelera
+        // Panel para las películas de la cartelera
         JPanel peliculasPanel = new JPanel(new GridLayout(1, 3, 10, 0));
         JPanel peliculaPanel = new JPanel();
         peliculaPanel.setBackground(Color.GRAY);
@@ -57,8 +60,11 @@ public class Cartelera extends JFrame {
     }
 
     private void mostrarSucursales() {
-        RegistroSucursales sucursalesFrame = new RegistroSucursales();
-        sucursalesFrame.setVisible(true);
+        // Redirige a la vista de sucursales
+        SwingUtilities.invokeLater(() -> {
+            RegistroSucursales sucursalesFrame = new RegistroSucursales();
+            sucursalesFrame.setVisible(true);
+        });
     }
 
     private void buscarPeliculas() {
@@ -67,5 +73,11 @@ public class Cartelera extends JFrame {
 
     private void buscarSucursales() {
         JOptionPane.showMessageDialog(this, "Funcionalidad de búsqueda de sucursales aún no implementada.", "Buscar Sucursales", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new Cartelera().setVisible(true);
+        });
     }
 }
