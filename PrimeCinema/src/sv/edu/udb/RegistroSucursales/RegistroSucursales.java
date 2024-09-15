@@ -1,14 +1,11 @@
 package sv.edu.udb.RegistroSucursales;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-import java.awt.*;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import sv.edu.udb.Salas.RegistroSalas;
 
 public class RegistroSucursales extends JFrame {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/primecinema";
@@ -27,7 +24,6 @@ public class RegistroSucursales extends JFrame {
             e.printStackTrace();
         }
 
-
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(new Color(122, 38, 38));
@@ -35,11 +31,9 @@ public class RegistroSucursales extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
 
-
         List<String> sucursales = obtenerSucursales();
-
-
         int index = 0;
+
         for (int fila = 0; fila < 3; fila++) {
             for (int columna = 0; columna < 3; columna++) {
                 if (index < sucursales.size()) {
@@ -55,13 +49,23 @@ public class RegistroSucursales extends JFrame {
                     gbc.gridy = fila;
                     panel.add(sucursalButton, gbc);
                     index++;
+
+                    sucursalButton.addActionListener(e -> {
+                        // Obtener el idSucursal basado en el nombre del botón
+                        int idSucursal = obtenerIdSucursalPorNombre(sucursalButton.getText());
+                        if (idSucursal != -1) {
+                            new RegistroSalas(idSucursal).setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Sucursal no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    });
                 } else {
-                    break; // No hay más sucursales, sale un del bucle.
+                    break; // No hay más sucursales, sale del bucle.
                 }
             }
         }
 
-
+        // Añadir el botón de registrar sucursal
         JButton addSucursalButton = new JButton("Registrar Nueva Sucursal");
         addSucursalButton.setBackground(Color.LIGHT_GRAY);
         addSucursalButton.setForeground(Color.BLACK);
@@ -76,6 +80,25 @@ public class RegistroSucursales extends JFrame {
         panel.add(addSucursalButton, gbc);
 
         add(panel);
+    }
+
+    private int obtenerIdSucursalPorNombre(String nombreSucursal) {
+        int idSucursal = -1;
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT idSucursal FROM sucursal WHERE nombre = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, nombreSucursal);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        idSucursal = rs.getInt("idSucursal");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener el id de la sucursal.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return idSucursal;
     }
 
     private List<String> obtenerSucursales() {
@@ -112,7 +135,7 @@ public class RegistroSucursales extends JFrame {
 
         // Crear y configurar los labels
         JLabel nombreLabel = new JLabel("Nombre de Sucursal:");
-        nombreLabel.setForeground(Color.WHITE); // Color blanco
+        nombreLabel.setForeground(Color.WHITE);
         nombreLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         JLabel nombreGerenteLabel = new JLabel("Nombre del Gerente:");
@@ -162,7 +185,6 @@ public class RegistroSucursales extends JFrame {
         registroFrame.add(panel);
         registroFrame.setVisible(true);
     }
-
 
     private void registrarSucursal(String nombre, String nombreGerente, String numeroTelefono, String direccionCompleta) {
         if (nombre.isEmpty() || nombreGerente.isEmpty() || numeroTelefono.isEmpty() || direccionCompleta.isEmpty()) {
