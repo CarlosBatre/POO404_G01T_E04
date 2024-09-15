@@ -28,6 +28,25 @@ public class RegistroSalas extends JFrame {
         actualizarBotonesSalas();
     }
 
+    private String obtenerNombreSucursal() {
+        String nombreSucursal = "";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT nombre FROM sucursal WHERE idSucursal = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, idSucursal);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        nombreSucursal = rs.getString("nombre");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener el nombre de la sucursal.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return nombreSucursal;
+    }
+
     private List<String> obtenerSalas() {
         List<String> salas = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -129,6 +148,17 @@ public class RegistroSalas extends JFrame {
 
     private void actualizarBotonesSalas() {
         getContentPane().removeAll();
+        setLayout(new BorderLayout());
+
+        // Add branch name label at the top
+        JLabel sucursalLabel = new JLabel("Sucursal: " + obtenerNombreSucursal(), SwingConstants.CENTER);
+        sucursalLabel.setForeground(Color.WHITE);
+        sucursalLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        sucursalLabel.setOpaque(true);
+        sucursalLabel.setBackground(new Color(122, 38, 38));
+        add(sucursalLabel, BorderLayout.NORTH);
+
+        // Create panel for buttons
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(new Color(122, 38, 38));
@@ -139,7 +169,7 @@ public class RegistroSalas extends JFrame {
         List<String> salas = obtenerSalas();
 
         int index = 0;
-        for (int fila = 0; fila < 3; fila++) {
+        for (int fila = 1; fila < 4; fila++) { // Start from row 1 to leave space for the branch name label
             for (int columna = 0; columna < 3; columna++) {
                 if (index < salas.size()) {
                     JButton salaButton = new JButton("Sala " + salas.get(index));
@@ -154,6 +184,7 @@ public class RegistroSalas extends JFrame {
 
                     gbc.gridx = columna;
                     gbc.gridy = fila;
+                    gbc.gridwidth = 1;
                     panel.add(salaButton, gbc);
                     index++;
                 } else {
@@ -172,10 +203,11 @@ public class RegistroSalas extends JFrame {
         addSalaButton.addActionListener(e -> mostrarFormularioRegistro());
 
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
         panel.add(addSalaButton, gbc);
 
-        add(panel);
+        add(panel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
