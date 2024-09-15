@@ -1,5 +1,9 @@
 package sv.edu.udb.RegistroSucursales;
-
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
@@ -13,7 +17,7 @@ public class RegistroSucursales extends JFrame {
 
     public RegistroSucursales() {
         setTitle("Sucursales");
-        setSize(500, 400);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -93,30 +97,50 @@ public class RegistroSucursales extends JFrame {
 
     private void mostrarFormularioRegistro() {
         JFrame registroFrame = new JFrame("Registrar Nueva Sucursal");
-        registroFrame.setSize(400, 300);
+        registroFrame.setSize(400, 400);
         registroFrame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(new Color(122, 38, 38));
 
+        // Crear los campos de texto
         JTextField nombreField = new JTextField();
         JTextField nombreGerenteField = new JTextField();
         JTextField numeroTelefonoField = new JTextField();
         JTextField direccionCompletaField = new JTextField();
 
-        panel.add(new JLabel("Nombre de Sucursal:"));
+        // Crear y configurar los labels
+        JLabel nombreLabel = new JLabel("Nombre de Sucursal:");
+        nombreLabel.setForeground(Color.WHITE); // Color blanco
+        nombreLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        JLabel nombreGerenteLabel = new JLabel("Nombre del Gerente:");
+        nombreGerenteLabel.setForeground(Color.WHITE);
+        nombreGerenteLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        JLabel numeroTelefonoLabel = new JLabel("Número de Teléfono:");
+        numeroTelefonoLabel.setForeground(Color.WHITE);
+        numeroTelefonoLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        JLabel direccionCompletaLabel = new JLabel("Dirección Completa:");
+        direccionCompletaLabel.setForeground(Color.WHITE);
+        direccionCompletaLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        // Añadir los componentes al panel
+        panel.add(nombreLabel);
         panel.add(nombreField);
 
-        panel.add(new JLabel("Nombre del Gerente:"));
+        panel.add(nombreGerenteLabel);
         panel.add(nombreGerenteField);
 
-        panel.add(new JLabel("Número de Teléfono:"));
+        panel.add(numeroTelefonoLabel);
         panel.add(numeroTelefonoField);
 
-        panel.add(new JLabel("Dirección Completa:"));
+        panel.add(direccionCompletaLabel);
         panel.add(direccionCompletaField);
 
+        // Configurar el botón de registro
         JButton registrarButton = new JButton("Registrar");
         registrarButton.setBackground(Color.LIGHT_GRAY);
         registrarButton.setForeground(Color.BLACK);
@@ -131,12 +155,14 @@ public class RegistroSucursales extends JFrame {
                 direccionCompletaField.getText()
         ));
 
-        panel.add(new JLabel());
+        panel.add(new JLabel()); // Espacio vacío
         panel.add(registrarButton);
 
+        // Añadir el panel al frame
         registroFrame.add(panel);
         registroFrame.setVisible(true);
     }
+
 
     private void registrarSucursal(String nombre, String nombreGerente, String numeroTelefono, String direccionCompleta) {
         if (nombre.isEmpty() || nombreGerente.isEmpty() || numeroTelefono.isEmpty() || direccionCompleta.isEmpty()) {
