@@ -94,7 +94,7 @@ public class RegistroSalas extends JFrame {
         registrarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         registrarButton.addActionListener(e -> registrarSala(numeroField.getText()));
 
-        panel.add(new JLabel()); // Espacio vacío
+        panel.add(new JLabel());
         panel.add(registrarButton);
 
         registroFrame.add(panel);
@@ -219,7 +219,7 @@ public class RegistroSalas extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Aquí podrías pasar un idSucursal para pruebas.
+
             new RegistroSalas(1).setVisible(true);
         });
     }

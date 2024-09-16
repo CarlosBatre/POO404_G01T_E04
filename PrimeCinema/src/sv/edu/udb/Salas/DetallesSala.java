@@ -137,21 +137,72 @@ public class DetallesSala extends JFrame {
                 JOptionPane.YES_NO_OPTION);
 
         if (option == JOptionPane.YES_OPTION) {
+
+            String peliculaActual = obtenerDetallesPelicula();
+
+
+            double precioEntrada = 5.00;
+            double totalDinero = count * precioEntrada;
+
+
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+                String sql = "INSERT INTO ventas (numeroSala, pelicula, cantidadEntradas, totalDinero) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                    stmt.setString(1, numeroSala);
+                    stmt.setString(2, peliculaActual);
+                    stmt.setInt(3, count);
+                    stmt.setDouble(4, totalDinero);
+                    stmt.executeUpdate();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al registrar la venta.");
+                return;
+            }
+
             JOptionPane.showMessageDialog(this,
-                    "Compra realizada: " + count + " entrada(s) para la Sala " + numeroSala,
+                    "Compra realizada: " + count + " entrada(s) para la Sala " + numeroSala + "\nTotal: $" + String.format("%.2f", totalDinero),
                     "Compra Exitosa",
                     JOptionPane.INFORMATION_MESSAGE);
+
+
+            generarReporte();
+
 
             this.dispose();
             SwingUtilities.invokeLater(() -> new Cartelera().setVisible(true));
         }
     }
 
+
     private void desocuparTodos() {
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
                 asientos[i][j].setBackground(Color.GREEN);
             }
+        }
+    }
+    private void generarReporte() {
+        String sql = "SELECT numeroSala, SUM(totalDinero) AS totalIngresos " +
+                "FROM ventas GROUP BY numeroSala ORDER BY totalIngresos DESC";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            StringBuilder reporte = new StringBuilder("Reporte de Ingresos por Sala:\n\n");
+
+            while (rs.next()) {
+                String sala = rs.getString("numeroSala");
+                double ingresos = rs.getDouble("totalIngresos");
+                reporte.append("Sala: ").append(sala).append(", Ingresos: $").append(ingresos).append("\n");
+            }
+
+            JOptionPane.showMessageDialog(this, reporte.toString(), "Reporte de Ingresos", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte.");
         }
     }
 

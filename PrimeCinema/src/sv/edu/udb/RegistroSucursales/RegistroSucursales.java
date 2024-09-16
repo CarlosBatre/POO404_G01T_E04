@@ -51,7 +51,7 @@ public class RegistroSucursales extends JFrame {
                     index++;
 
                     sucursalButton.addActionListener(e -> {
-                        // Obtener el idSucursal basado en el nombre del botón
+
                         int idSucursal = obtenerIdSucursalPorNombre(sucursalButton.getText());
                         if (idSucursal != -1) {
                             new RegistroSalas(idSucursal).setVisible(true);
@@ -60,12 +60,12 @@ public class RegistroSucursales extends JFrame {
                         }
                     });
                 } else {
-                    break; // No hay más sucursales, sale del bucle.
+                    break;
                 }
             }
         }
 
-        // Añadir el botón de registrar sucursal
+
         JButton addSucursalButton = new JButton("Registrar Nueva Sucursal");
         addSucursalButton.setBackground(Color.LIGHT_GRAY);
         addSucursalButton.setForeground(Color.BLACK);
@@ -127,13 +127,13 @@ public class RegistroSucursales extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(new Color(122, 38, 38));
 
-        // Crear los campos de texto
+
         JTextField nombreField = new JTextField();
         JTextField nombreGerenteField = new JTextField();
         JTextField numeroTelefonoField = new JTextField();
         JTextField direccionCompletaField = new JTextField();
 
-        // Crear y configurar los labels
+
         JLabel nombreLabel = new JLabel("Nombre de Sucursal:");
         nombreLabel.setForeground(Color.WHITE);
         nombreLabel.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -150,7 +150,7 @@ public class RegistroSucursales extends JFrame {
         direccionCompletaLabel.setForeground(Color.WHITE);
         direccionCompletaLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
-        // Añadir los componentes al panel
+
         panel.add(nombreLabel);
         panel.add(nombreField);
 
@@ -163,7 +163,7 @@ public class RegistroSucursales extends JFrame {
         panel.add(direccionCompletaLabel);
         panel.add(direccionCompletaField);
 
-        // Configurar el botón de registro
+
         JButton registrarButton = new JButton("Registrar");
         registrarButton.setBackground(Color.LIGHT_GRAY);
         registrarButton.setForeground(Color.BLACK);
@@ -178,10 +178,10 @@ public class RegistroSucursales extends JFrame {
                 direccionCompletaField.getText()
         ));
 
-        panel.add(new JLabel()); // Espacio vacío
+        panel.add(new JLabel());
         panel.add(registrarButton);
 
-        // Añadir el panel al frame
+
         registroFrame.add(panel);
         registroFrame.setVisible(true);
     }

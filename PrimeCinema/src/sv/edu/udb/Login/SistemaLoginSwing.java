@@ -22,7 +22,7 @@ public class SistemaLoginSwing extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura el aspecto visual
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class SistemaLoginSwing extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.setFont(new Font("Arial", Font.BOLD, 15));
 
-        // Panel de inicio de sesión
+
         loginPanel = createStyledPanel();
         loginPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -95,8 +95,8 @@ public class SistemaLoginSwing extends JFrame {
             JLabel label = new JLabel(labels[i]);
             label.setFont(new Font("Arial", Font.BOLD, 16));
             label.setForeground(Color.WHITE);  // Color blanco
-            addComponent(registerPanel, label, gbc, 0, i);  // Añadir la etiqueta al panel
-            addComponent(registerPanel, fields[i], gbc, 1, i);  // Añadir el campo de texto al panel
+            addComponent(registerPanel, label, gbc, 0, i);
+            addComponent(registerPanel, fields[i], gbc, 1, i);
         }
         gbc.gridwidth = 2;
         gbc.gridy = labels.length;
@@ -153,7 +153,7 @@ public class SistemaLoginSwing extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     new VentanaBienvenidaCine(nombreCompleto).setVisible(true);
                 });
-                this.dispose(); // Cierra la ventana de login
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Credenciales inválidas. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -164,13 +164,13 @@ public class SistemaLoginSwing extends JFrame {
 
 
     private void registrar() {
-        // Verifica si los campos están inicializados
+
         if (regNombre == null || regLogin == null || regPassword == null ||
                 regDui == null || regTelefono == null || regEmail == null || regDireccion == null) {
             JOptionPane.showMessageDialog(this, "Error: Uno o más campos de registro no están inicializados.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // Validacion Campos Vacios
+
         if (regNombre.getText().trim().isEmpty() ||
                 regLogin.getText().trim().isEmpty() ||
                 regPassword.getText().trim().isEmpty() ||
@@ -183,10 +183,10 @@ public class SistemaLoginSwing extends JFrame {
             return;
         }
 
-        // Obtener conexión a la base de datos
+
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
 
-            //Validacion Nombre usuario
+
             String sqlVerificarUsuario = "SELECT 1 FROM usuario WHERE login = ?";
             PreparedStatement pstmtVerificarUsuario = conn.prepareStatement(sqlVerificarUsuario);
             pstmtVerificarUsuario.setString(1, regLogin.getText());
@@ -197,23 +197,41 @@ public class SistemaLoginSwing extends JFrame {
                 return;
             }
 
-            //Validacion Dui
+
             String sqlVerificarDui = "SELECT 1 FROM usuario WHERE numeroDui = ?";
             PreparedStatement pstmtVerificarDui = conn.prepareStatement(sqlVerificarDui);
             pstmtVerificarDui.setString(1, regDui.getText());
 
             ResultSet rs = pstmtVerificarDui.executeQuery();
             if (rs.next()) {
-                // Si el DUI ya existe, mostrar un mensaje de error y regresar
+
                 JOptionPane.showMessageDialog(this, "DUI ya está registrado. Intente con otro.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Definir la consulta SQL para insertar datos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             String sql = "INSERT INTO usuario (NombreCompleto, login, contraseña, numeroDui, numeroTelefono, correoElectronico, direccionCompleta) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            // Preparar la declaración
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            // Establecer los parámetros de la consulta
+
             pstmt.setString(1, regNombre.getText());
             pstmt.setString(2, regLogin.getText());
             pstmt.setString(3, regPassword.getText());
@@ -222,13 +240,13 @@ public class SistemaLoginSwing extends JFrame {
             pstmt.setString(6, regEmail.getText());
             pstmt.setString(7, regDireccion.getText());
 
-            // Ejecutar la actualización
+
             int filasAfectadas = pstmt.executeUpdate();
-            // Comprobar el resultado y mostrar un mensaje de éxito o error
+
             if (filasAfectadas > 0) {
                 JOptionPane.showMessageDialog(this, "¡Registro exitoso! Por favor, inicie sesión.");
                 limpiarCamposRegistro();
-                tabbedPane.setSelectedIndex(0); // Cambia a la pestaña de inicio de sesión
+                tabbedPane.setSelectedIndex(0);
             } else {
                 JOptionPane.showMessageDialog(this, "El registro falló. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
